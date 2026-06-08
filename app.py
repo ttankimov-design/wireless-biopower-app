@@ -78,4 +78,32 @@ v_10_x = st.sidebar.slider("Напряжение при сдвиге 10 мм (В
 i_10_x = st.sidebar.slider("Ток при сдвиге 10 мм (А)", 0.05, 0.6, 0.11, step=0.01)
 
 # Изменили диапазон горизонтального расстояния: от 0 до 10 мм
-displacement_x = np.array
+displacement_x = np.array([0, 2, 4, 6, 8, 10])
+
+# Выходные параметры контура X от 0 до 10 мм
+voltage_x = np.linspace(5.10, v_10_x, len(displacement_x))
+current_x = np.linspace(0.55, i_10_x, len(displacement_x))
+p_out_x = voltage_x * current_x
+efficiency_x = (p_out_x / P_in) * 100
+
+# Таблица 2
+df_x = pd.DataFrame({
+    'Горизонтальное смещение X (мм)': displacement_x,
+    'Выходное напряжение U (В)': np.round(voltage_x, 2),
+    'Выходной ток I (А)': np.round(current_x, 2),
+    'Выходная мощность P (Вт)': np.round(p_out_x, 2),
+    'КПД системы (%)': np.round(efficiency_x, 1)
+})
+st.dataframe(df_x, use_container_width=True)
+
+# График 2
+fig2, ax2 = plt.subplots(figsize=(8, 4), dpi=300)
+ax2.plot(displacement_x, efficiency_x, color='#2ca02c', marker='s', linewidth=2.5, label='КПД (%)')
+ax2.fill_between(displacement_x, efficiency_x - 1.0, efficiency_x + 1.0, color='#2ca02c', alpha=0.1)
+ax2.set_xlabel('Горизонтальное смещение от центра по оси X (мм)')
+ax2.set_ylabel('КПД системы (%)')
+ax2.set_xlim(-0.5, 11)
+ax2.set_ylim(0, 35)
+ax2.grid(True, linestyle='--', alpha=0.5)
+plt.title('Зависимость КПД от горизонтального смещения (X)', fontsize=11)
+st.pyplot(fig2)
