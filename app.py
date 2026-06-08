@@ -78,4 +78,4 @@ v_10_x = st.sidebar.slider("Напряжение при сдвиге 10 мм (В
 i_10_x = st.sidebar.slider("Ток при сдвиге 10 мм (А)", 0.05, 0.6, 0.11, step=0.01)
 
 # Изменили диапазон горизонтального расстояния: от 0 до 10 мм
-displacement_x = np.array(
+displacement_x = np.array
